@@ -22,7 +22,7 @@ There are two types of microcontroller boards that we'll talk about.
 
 The ESP8266 is the chip that arguably started the do-it-yourself (DIY) IoT revolution, and was created by Espressif, a company based in Shanghai, China.  It contains a 32-bit processor running at 80MHz, with 64K of RAM and 4MB flash storage.  That's 5 times the processing power, 16 times the RAM, and 128 times the storage of a typical Arduino board.  But the killer feature is a built-in WiFi stack that can act as a WiFi client, access point, or both at the same time!  These boards can be obtained for as little as $4 in the US and under $1 from China. The ESP8266 was initially marketed as an add-on WiFi component for other microcontrollers, like Arduino.  Then someone realized that it contained its own
 
-<img src="part1-images/image-20200727195603905.png" alt="image-20200727195603905" style="zoom:50%;" />
+<img src="./section_1_images/image-20200727195603905.png" alt="image-20200727195603905" style="zoom:50%;" />
 
 
 
@@ -32,7 +32,7 @@ The ESP8266 is the chip that arguably started the do-it-yourself (DIY) IoT revol
 
 Following on the success of the ESP8266, Espressif came up with the ESP32.  This has a dual-core 32-bit processor running at between 160MHz and 240MHz, faster WiFi, Bluetooth, and lots more I/O ports.  In addition to the standard "developer board" form factors, this chip comes in interesting packages like the ESP Cam (a 2MP camera for video streaming and still imaging for about $8) and the ESP-AI (camera plus built-in face-detecting AI in hardware).
 
-<img src="part1-images/developing-for-espressif-esp32-and-esp8266.png" alt="Develop for espressif esp32 and esp8266 by Carstent" style="zoom: 50%;" />
+<img src="./section_1_images/developing-for-espressif-esp32-and-esp8266.png" alt="Develop for espressif esp32 and esp8266 by Carstent" style="zoom: 50%;" />
 
 
 
@@ -40,11 +40,11 @@ Following on the success of the ESP8266, Espressif came up with the ESP32.  This
 
 ## Pinouts
 
-One important term you will come across often is "pinout".  A pinout is a visual map of a board or component.  Having a pinout diagram of your board (and/or whatever component you're trying to work with) handy saves lots of time and frustration.  When you're trying to hook up your temperature sensor, for instance, it's very important to know which pin connects to the power and which connects to ground, otherwise it won't work (at best) or there will be fireworks (at worst).  
+One important term you will come across often is "pinout".  A pinout is a visual map of a board or component.  Having a pinout diagram of your board (and/or whatever component you're trying to work with) handy saves lots of time and frustration.  When you're trying to hook up your temperature sensor, for instance, it's very important to know which pin connects to the power and which connects to ground, otherwise it won't work (at best) or there will be fireworks (at worst).
 
 These diagrams are readily available on the Internet, and can be obtained by searching for "pinout" plus whatever board or component you're interested in.  For example, the following diagram of a typical ESP8266 development board can be found by Googling, `esp8266 pinout`.  If you have an ESP32 board, search for `esp32 pinout`.
 
-![Understanding NodeMCU ESP8266-12E Limitations - Making It Up](images/NodeMCU-ESP8266-12E-Limitations.jpg)
+![Understanding NodeMCU ESP8266-12E Limitations - Making It Up](./section_1_images/NodeMCU-ESP8266.jpg)
 
 There are a few things to take note of on this diagram:
 
@@ -62,7 +62,7 @@ The ESP boards work on 3.3 volts. This is important for two main reasons.  The b
 
 
 
-![image-20200728143040376](images/image-20200728143040376.png)
+![image-20200728143040376](./section_1_images/image-20200728143040376.png)
 
 One of the most important tools in the electronics prototyping toolbox is the breadboard. It is used to build circuits and connect components in a non-permanent way. Once you’ve built and tested the circuit, you can then move on to soldering it in a more permanent, and more compact, way on perfboard or a specially designed printed circuit board (PCB).
 
@@ -70,7 +70,7 @@ A breadboard is like a pin cushion for connecting things, with a grid of holes t
 
 Here we see how a breadboard is connected internally.
 
-![img](images/breadboard_internal.png)
+![img](./section_1_images/breadboard_internal.png)
 
 The main area consists of a two separate grids of holes arranged in usually 30 or more columns (labeled 1 through 30) of 5 holes (labeled a through e, and f through j), separated by a groove. Each column of 5 holes is called a terminal strip. All of the 5 holes (or **tie points**) in a column are connected together internally.
 
@@ -221,7 +221,7 @@ Once the command completes, the board will have nothing on it, and we can go ahe
 To flash MicroPython to an **ESP8266** device:
 
 ```shell
-esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp32-idf3-20191220-v1.12.bin
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20191220-v1.12.bin 
 ```
 
 
@@ -229,382 +229,95 @@ esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 e
 To flash MicroPython to an **ESP32** device:
 
 ```shell
-esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-20180511-v1.12.bin
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --chip esp32 -z 0x1000 esp32-idf3-20191220-v1.12.bin
 ```
 
 
 
+Assuming the command completed successfully, your board is now rocking Python!  Let's check it out using the REPL. Let's use rshell for this.  Back in your terminal with our IoT Python virtual environment activated, type `rshell`. You should see something like the following:
 
+```shell
+Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 
-> ESP32:  Change boot.py to do the following:
+No MicroPython boards connected - use the connect command to add one
+
+/home/dalexis/code/iot>
+```
+
+Now we're going to use the port that our board is connected to in the next command.  On Windows this might be something like `COM9`, on Mac `/dev/cu.SLAB_USBtoUART`, and on Linux maybe `/dev/ttyUSB0`.  I'm using a Windows machine with Ubuntu 20.04 bash as my default terminal environment, and my board is connected on COM9.  So I can use either COM9 (from Powershell), or /dev/ttyS9 under WSL/Ubuntu.  At the rshell prompt, let's use the `connect serial <port>` command. In my case, under WSL it would be:
+
+```shell
+/home/dalexis/code/iot> connect serial /dev/ttyS9
+```
+
+And I see the following output:
+
+```shell
+Connecting to /dev/ttyS16 (buffer-size 512)...
+Trying to connect to REPL  connected
+Testing if sys.stdin.buffer exists ... Y
+Retrieving root directories ... /boot.py/
+Setting time ... Jul 29, 2020 22:20:45
+Evaluating board_name ... pyboard
+Retrieving time epoch ... Jan 01, 2000
+/home/dalexis/code/iot>
+```
+
+As you can see, it's letting me know that it was able to connect to the board and set it's time to my current machine time.  Note that rshell can trip you up a bit, since the prompt looks like your OS prompt.  But it's not.  It's within rshell, and displaying your current folder in the prompt.  It even let's you do Linux-type commands like ls, cp, rm, mkdir, and cd. It exposes the filesystem on your board (yes, there is a filesystem on that tiny thing!) under the path `/pyboard`.  Let's try the following:
+
+```shell
+/home/dalexis/code/iot> ls /pyboard
+```
+
+You should see a listing for boot.py, which comes by default with a MicroPython installation.  Check out the various available rshell commands by typing `help`.
+
+And now for something completely different! (Obligatory Monty Python reference there.  Sorry.)  At the rshell prompt, type `repl`.  You should see something like:
+
+```
+Entering REPL. Use Control-X to exit.
 >
-> ```python
-> import esp
-> esp.osdebug(None)
-> ```
->
->
+MicroPython v1.12 on 2019-12-20; ESP module with ESP8266
+Type "help()" for more information.
+>>>
+>>>
+```
 
+Now we can do the obligatory Hello World program:
 
+```python
+>>> print('Hello micro World!!')
+Hello micro World!!
+>>>
+```
 
+But to be truly idiomatic, the real microcontroller Hello World program is called Blinkenlights.  Luckily, these boards have a couple built-in LEDs, so they are ready for das blinkenlights! Try the following:
 
+```python
+>>> from machine import Pin
+>>> from time import sleep
+>>> led = Pin(2, Pin.OUT)
+>>> for i in range(10):
+...     led.value(not led.value())
+...     sleep(.5)
+...
+```
 
-## REPL
-
-
-
-Crtl-E - Paste mode
-
-Ctrl-C - Stop currently running code
-
-Ctrl-D - Soft reset
-
-
-
-
+Or alternatively (not going to show the REPL prompts from now on.  You're a Pythonista.  You know what's up):
 
 ```python
 from machine import Pin
-import time
+from time import sleep
 
-
-led1 = Pin(2, Pin.OUT)
-led2 = Pin(16, Pin.OUT)
+led = Pin(2, Pin.OUT)
 
 while True:
-    led1.on()
-    led2.off()
-    time.sleep(1)
-    led1.off()
-    led2.on()
-    time.sleep(1)
+    led.on()
+    sleep(.5)
+    led.off()
+    sleep(.5)
 ```
 
+This will just go on forever until you reset the board or hit Ctrl-C.
 
+You'll notice that as soon as you run the `led = Pin(2, Pin.OUT)` line, the LED comes on.  And if you do `led.on()` it goes off.  Weird.  This is a fun little quirk with the built-in LEDs on these boards, and due to them being internally connected to what's called a pull-up resistor.  We'll get into that in a later section.
 
-
-
-
-
-# The Sensor
-
-
-
-![DHT11-DHT22-AM2302-Temperature-Humidity-Sensor-Pinout](images/DHT11-DHT22-AM2302-Temperature-Humidity-Sensor-Pinout.png)
-
-
-
-<img src="part1-images/dht22_esp8266_wiring.png" alt="Getting Started With the ESP8266 and DHT22 Sensor" style="zoom: 50%;" />
-
-
-
-
-
-
-
-# Optimizations
-
-
-
-
-
-# Snippets
-
-
-
-```python
-from machine import Pin
-import dht
-import utime
-
-dhtPin = Pin(5, Pin.IN, Pin.PULL_UP)
-dht11 = dht.DHT11(dhtPin)
-
-def run():
-    measure = dht11.measure
-    temp = dht11.temperature
-    hum = dht11.humidity
-    sleep = utime.sleep
-
-    while True:
-        try:
-            measure()
-            tC = temp()
-            tF = (tC * 1.8) + 32
-            h = hum()
-            print(tF, " - ", h)
-        except:
-            print('bad reading')
-
-    sleep(5)
-
-run()
-```
-
-
-
-```python
-import network
-from machine import Pin, I2C
-import ssd1306
-import dht
-import time
-from umqtt.robust import MQTTClient
-import os
-import gc
-import sys
-
-import secrets
-
-
-MAX_ATTEMPTS = 20
-attempt_count = 0
-
-client_id = "unit1"
-mqtt_feedname = b'sensors/temp'
-PUBLISH_PERIOD_IN_SEC = 10
-
-
-def connect_wifi():
-    """
-    Wait until the device is connected to the WiFi network
-    """
-    global attempt_count
-
-    if wifi.isconnected():
-        return True
-
-    while wifi.isconnected() == False and attempt_count < MAX_ATTEMPTS:
-        print('Connecting to WiFI...')
-        attempt_count += 1
-
-        wifi.connect(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
-
-        connection_countdown = 15
-
-        while connection_countdown > 0:
-            if wifi.isconnected():
-                break
-
-            connection_countdown -= 1
-            time.sleep(.5)
-
-        if wifi.isconnected():
-            print("Connected to WiFi")
-            return True
-
-        if attempt_count < MAX_ATTEMPTS:
-            print('Could not connect to the WiFi network.  Trying again.')
-
-            time.sleep(2)
-            continue
-        else:
-            print('Failed to connect to WiFi.  Aborting for now.')
-            display.fill(0)
-            display.text('Could not connect to', 0, 0)
-            display.text('WiFi!', 0, 10)
-            display.show()
-
-    return False
-
-def connect_to_mqtt():
-    def mqtt_is_connected():
-        if mqtt_client is None:
-            return False
-
-        try:
-            mqtt_client.ping()
-            return True
-        except:
-            return False
-
-    if mqtt_is_connected():
-        return True
-
-    try:
-        mqtt_client.connect()
-        return True
-    except Exception as e:
-        print('could not connect to MQTT server {} - {}'.format(secrets.MQTT_SERVER, e))
-        print(e)
-        return False
-
-# -------------------------------------------------------------------------------------------
-
-dhtPin = Pin(2, Pin.IN, Pin.PULL_UP)
-sensor = dht.DHT11(dhtPin)
-
-i2c = I2C(-1, scl=Pin(5), sda=Pin(4))
-display = ssd1306.SSD1306_I2C(128, 32, i2c)
-display.fill(0)
-display.text('Initializing...', 5, 5)
-display.show()
-
-# turn off the WiFi Access Point
-ap_if = network.WLAN(network.AP_IF)
-ap_if.active(False)
-
-# connect the device to the WiFi network
-wifi = network.WLAN(network.STA_IF)
-wifi.active(True)
-
-mqtt_client = MQTTClient(client_id=client_id,
-                    server=secrets.MQTT_SERVER,
-                    user=secrets.MQTT_USER,
-                    password=secrets.MQTT_PASSWORD,
-                    ssl=False)
-
-connect_wifi()
-
-display.fill(0)
-display.show()
-
-while True:
-    # Ensure that we're connected to WiFi
-    if not connect_wifi():
-        sys.exit()
-
-    try:
-        if not connect_to_mqtt():
-            wifi.disconnect()
-            time.sleep(2)
-            continue
-
-        sensor.measure()
-        temperatureF = (sensor.temperature() * (9 / 5)) + 32
-        temperature = str(round(temperatureF, 2))
-        humidity = sensor.humidity()
-
-        display.fill(0)
-        display.text('Temp:     {}'.format(temperature), 5, 5)
-        display.text('Humidity: {}'.format(humidity), 5, 20)
-        display.show()
-
-        msg = b'{{ "deviceId": "{}", "tempF": "{}", "humidity": {} }}'.format(
-                client_id,
-                temperature,
-                humidity)
-
-        mqtt_client.publish(mqtt_feedname, msg, qos=0)
-        print('Temp: {}  Hum: {}'.format(temperature, humidity))
-        mqtt_client.disconnect()
-
-        time.sleep(PUBLISH_PERIOD_IN_SEC)
-    except KeyboardInterrupt:
-        print('Ctrl-C pressed...exiting', 0, 0)
-        mqtt_client.disconnect()
-        sys.exit()
-    except Exception as e:
-        display.fill(0)
-        display.text("Something failed: {}".format(e), 0, 0)
-        display.show()
-
-        print(e)
-        time.sleep(10)
-```
-
-
-
-```python
-from machine import I2C, Pin
-import ssd1306
-
-i2c = I2C(-1, Pin(5), Pin(4))
-display = ssd1306.SSD1306_I2C(128, 32, i2c)
-
-# ICON = [
-#     [ 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     [ 0, 1, 1, 0, 0, 0, 1, 1, 0],
-#     [ 1, 1, 1, 1, 0, 1, 1, 1, 1],
-#     [ 1, 1, 1, 1, 1, 1, 1, 1, 1],
-#     [ 1, 1, 1, 1, 1, 1, 1, 1, 1],
-#     [ 0, 1, 1, 1, 1, 1, 1, 1, 0],
-#     [ 0, 0, 1, 1, 1, 1, 1, 0, 0],
-#     [ 0, 0, 0, 1, 1, 1, 0, 0, 0],
-#     [ 0, 0, 0, 0, 1, 0, 0, 0, 0],
-# ]
-#
-# display.fill(0) # Clear the display
-# for y, row in enumerate(ICON):
-#     for x, c in enumerate(row):
-#         display.pixel(x, y, c)
-#
-# display.text("Hello world!", 20, 3, 1)
-# display.show()
-
-import framebuf
-
-# FrameBuffer needs 2 bytes for every RGB565 pixel
-fbuf = framebuf.FrameBuffer(bytearray(10 * 100 * 2), 128, 32, framebuf.MONO_HLSB)
-
-fbuf.fill(0)
-fbuf.text('MicroPython!', 0, 0, 0xffff)
-fbuf.hline(0, 10, 96, 0xffff)
-
-display.blit(fbuf, 0, 0)
-display.show()
-
-```
-
-
-
-```python
-import machine
-import time
-
-LED_PIN = 2  # D4
-LED2_PIN = 16  # D0
-BUTTON_PIN = 14  # D5
-
-def blink():
-    led = machine.Pin(LED_PIN, machine.Pin.OUT)
-    led2 = machine.Pin(LED2_PIN, machine.Pin.OUT)
-    button = machine.Pin(BUTTON_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
-
-    while True:
-        while not button.value():
-            led.on()
-            led2.off()
-            time.sleep(0.5)
-            led.off()
-            led2.on()
-            time.sleep(0.5)
-
-        led.on()
-        led2.on()
-
-blink()
-```
-
-
-
-
-
-Arduino Cloud:
-
-Client ID:  8YOnoKPjeuO8KtBsqI8UQXkeDe6uGPGv
-
-Client Secret:  H0Ax11m1EX7ArnAXK6RKc6dtsbAISf3rHJjnZd7cnU8du9TfnX4Ah2tFqPIQaU4o
-
-
-
-| Current Endpoints |                                                              |
-| ----------------- | ------------------------------------------------------------ |
-| Web               | `https://io.adafruit.com/dalexis/feeds/makerweek-sensors`    |
-| API               | `https://io.adafruit.com/api/v2/dalexis/feeds/makerweek-sensors` |
-| MQTT *by Key*     | `dalexis/feeds/makerweek-sensors`                            |
-
-```
-IO_USERNAME  "dalexis"
-#define IO_KEY       "52221012e80fa76a22af1ec0215b2103337caab9"
-```
-
-https://console.firebase.google.com/
-
-
-
-
-
-## Attribution
-
-Diagrams made with [Cirtuits.io](https://www.circuito.io/app)

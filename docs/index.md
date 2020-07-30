@@ -12,4 +12,4 @@ Let's get started!
 
 
 
-## [Part 1 - Intro and Setup](part 1 - setup.md) 
+- [Section 1- Intro and Setup](./section_1.md) 
