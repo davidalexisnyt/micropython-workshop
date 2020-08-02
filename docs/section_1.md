@@ -164,7 +164,7 @@ Lots of Python developers use PyCharm.  And it has a MicroPython plugin that sup
 
 ### vi, etc.
 
-I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards. 
+I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards.
 
 ### Your Editor of Choice + Command Line Tools
 
@@ -231,7 +231,7 @@ Once the command completes, the board will have nothing on it, and we can go ahe
 To flash MicroPython to an **ESP8266** device:
 
 ```shell
-esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20191220-v1.12.bin 
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20191220-v1.12.bin
 ```
 
 
@@ -335,8 +335,8 @@ while True:
 
 This will just go on forever until you reset the board or hit Ctrl-C.
 
-You'll notice that as soon as you run the `led = Pin(2, Pin.OUT)` line, the LED comes on.  And if you do `led.on()` it goes off.  Weird.  This is a fun little quirk with the built-in LEDs on ESP8266 boards, and due to them being internally connected to what's called a pull-up resistor.  The TL;DR about a pullup resistor is that it makes it so that off is on and on is off. Weird. But it has its uses.  The good thing is that the LED on my ESP32 boards behave normally.  I'm assuming that they got enough complaints from confused ESP8266 users that they "fixed" it with the ESP32. 
+You'll notice that as soon as you run the `led = Pin(2, Pin.OUT)` line, the LED comes on.  And if you do `led.on()` it goes off.  Weird.  This is a fun little quirk with the built-in LEDs on ESP8266 boards, and due to them being internally connected to what's called a pull-up resistor.  The TL;DR about a pullup resistor is that it makes it so that off is on and on is off. Weird. But it has its uses.  The good thing is that the LED on my ESP32 boards behave normally.  I'm assuming that they got enough complaints from confused ESP8266 users that they "fixed" it with the ESP32.
 
 
 
-In the [next section](Section_2.md), we'll get to know the "Thing" part of IoT with MicroPython.
+In the [next section](section_2.md), we'll get to know the "Thing" part of IoT with MicroPython.

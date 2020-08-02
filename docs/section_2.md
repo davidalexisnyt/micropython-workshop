@@ -37,7 +37,7 @@ Let's break this down to see what's going on.
 import machine
 ```
 
-The '**machine**' module contains classes and methods for accessing device-specific functionality, like the general-purpose I/O (GPIO) pins. 
+The '**machine**' module contains classes and methods for accessing device-specific functionality, like the general-purpose I/O (GPIO) pins.
 
 > **GPIO:** Microcontroller chips interact with the external world though wires that expose things like analog I/O, digital I/O, interrupt signals, or clock signals.  These are called *pins*, and the set of these pins that can be used by software to do useful things are the termed general purpose I/O pins.  We'll be able to use these GPIO pins to read measurements from sensors or tell an LED to turn on or off.
 
@@ -49,9 +49,9 @@ We will use the Pin class from the machine module.  The Pin class lets us declar
 led = machine.Pin(2, machine.Pin.OUT)
 ```
 
-On this line, we're creating an instance of the Pin class (led) that hooks up to GPIO pin 2.  Both ESP8266 and ESP32 boards have a built-in LED on the board that is internally connected to GPIO pin 2. Most ESP8266 boards also have another LED on pin 16. The second parameter to the Pin constructor - machine.Pin.OUT - is a constant that says that we want to use the pin as an output.  
+On this line, we're creating an instance of the Pin class (led) that hooks up to GPIO pin 2.  Both ESP8266 and ESP32 boards have a built-in LED on the board that is internally connected to GPIO pin 2. Most ESP8266 boards also have another LED on pin 16. The second parameter to the Pin constructor - machine.Pin.OUT - is a constant that says that we want to use the pin as an output.
 
-We'll be sending a signal to the pin that represents a HIGH signal (3.3v) or LOW signal (0 volts). 
+We'll be sending a signal to the pin that represents a HIGH signal (3.3v) or LOW signal (0 volts).
 
 ```python
 led.value(not led.value())
@@ -108,7 +108,7 @@ So now that we know about GPIO pins and how to get around the REPL, let's move o
 
 
 
-Insert the sensor into the breadboard as shown below.  It doesn't matter where, as long as it is connected across the breadboard columns and not down one column.  The key thing to note is the pinout of the sensor and where each pin needs to ultimately be connected to the board. 
+Insert the sensor into the breadboard as shown below.  It doesn't matter where, as long as it is connected across the breadboard columns and not down one column.  The key thing to note is the pinout of the sensor and where each pin needs to ultimately be connected to the board.
 
 ![sensor_hookup](section_2.assets/sensor_hookup.jpg)
 
@@ -153,7 +153,7 @@ Of course, we could condense this into:
 sensor = dht.DHT22(Pin(SENSOR_PIN, Pin.IN, Pin.PULL_UP))
 ```
 
-Basically, we need to get an instance of Pin that is properly configured as an input.  The `Pin.PULL_UP` parameters tells the board to activate the internal pull up resistor.  This is because the DHT sensors expect the data pin to be pulled high. i.e. that the normal state should be "on" or full voltage. 
+Basically, we need to get an instance of Pin that is properly configured as an input.  The `Pin.PULL_UP` parameters tells the board to activate the internal pull up resistor.  This is because the DHT sensors expect the data pin to be pulled high. i.e. that the normal state should be "on" or full voltage.
 
 Now, let's get a reading.
 
@@ -280,7 +280,7 @@ Let's try the same thing with mpfshell.  Run mpfshell, and you will get the foll
 mpfs [/]>
 ```
 
-You can type `help` to see the various commands it offers. 
+You can type `help` to see the various commands it offers.
 
 Let's connect to our board, copy the code to it, run the REPL, and execute the code:
 
@@ -309,7 +309,7 @@ After that, the `repl` command and executing our code is the same as with rshell
 
 
 
-Great!  So we now know how to get MicroPython onto our board, how to use a pinout diagram as the map to boards and components, how to hook things up on a breadboard, and get temperature and humidity readings in MicroPython.  The DHT sensors are simple to work with, since they require only a single pin (other than the requisite power and ground).  Other sensors and devices, like the BME280 temperature/humidity/barometric pressure sensor and very cute SSD1306 OLED screens, interface with our board through communication busses or protocols like I2C or SPI.  
+Great!  So we now know how to get MicroPython onto our board, how to use a pinout diagram as the map to boards and components, how to hook things up on a breadboard, and get temperature and humidity readings in MicroPython.  The DHT sensors are simple to work with, since they require only a single pin (other than the requisite power and ground).  Other sensors and devices, like the BME280 temperature/humidity/barometric pressure sensor and very cute SSD1306 OLED screens, interface with our board through communication busses or protocols like I2C or SPI.
 
 ![ssd1306_oled](section_2.assets/ssd1306_oled.jpg)
 
@@ -317,4 +317,4 @@ Adding an SSD1306 display is relatively easy, and a great addition to our build.
 
 
 
-Next, we'll figure out the ["Internet" part](Section_3.md) of IoT with MicroPython.
+Next, we'll figure out the ["Internet" part](section_3.md) of IoT with MicroPython.
