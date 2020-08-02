@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Remote Light Switch</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            html {
+                font-family: Helvetica;
+                display: inline-block;
+                margin: 0px auto;
+                text-align: center;
+            }
+
+            h1 {
+                color: #0F3376;
+                padding: 2vh;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            .button {
+                display: inline-block;
+                background-color: #4286f4;
+                border: none;
+                border-radius: 4px;
+                color: white;
+                padding: 16px 40px;
+                text-decoration: none;
+                font-size: 30px;
+                margin: 2px;
+                cursor: pointer;
+                width: 150px;
+            }
+            
+            .ledState {
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Remote Light Switch</h1>
+        <p>
+            Light is currently <strong><span class="ledState">{LED_STATE}</span></strong>
+        </p>
+        <p>
+            <a href="/?led={NEXT_LED_STATE}">
+                <button class="button">
+                    <span class="ledState">{NEXT_LED_STATE}</span>
+                </button>
+            </a>
+        </p>
+    </body>
+</html>

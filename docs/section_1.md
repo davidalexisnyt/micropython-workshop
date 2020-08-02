@@ -1,6 +1,8 @@
-<h1 style="font-weight: bold; font-size: 250%">Python in Small Places: Intro to MicroPython</h1>
+<h1 style="font-weight: bold; font-size: 250%;">Python in Small Places - Intro to IoT With MicroPython</h1>
 
 
+
+[TOC]
 
 # Introduction to MicroPython
 
@@ -44,7 +46,15 @@ One important term you will come across often is "pinout".  A pinout is a visual
 
 These diagrams are readily available on the Internet, and can be obtained by searching for "pinout" plus whatever board or component you're interested in.  For example, the following diagram of a typical ESP8266 development board can be found by Googling, `esp8266 pinout`.  If you have an ESP32 board, search for `esp32 pinout`.
 
-![Understanding NodeMCU ESP8266-12E Limitations - Making It Up](./section_1_images/NodeMCU-ESP8266.jpg)
+#### ESP8266 Pinout
+
+![NodeMCU ESP8266](./section_1_images/NodeMCU-ESP8266.jpg)
+
+#### ESP32 Pinout
+
+![ESP32](section_1_images/image-20200730175430195.png)
+
+
 
 There are a few things to take note of on this diagram:
 
@@ -62,7 +72,7 @@ The ESP boards work on 3.3 volts. This is important for two main reasons.  The b
 
 
 
-![image-20200728143040376](./section_1_images/image-20200728143040376.png)
+![Breadboard](./section_1_images/image-20200728143040376.png)
 
 One of the most important tools in the electronics prototyping toolbox is the breadboard. It is used to build circuits and connect components in a non-permanent way. Once you’ve built and tested the circuit, you can then move on to soldering it in a more permanent, and more compact, way on perfboard or a specially designed printed circuit board (PCB).
 
@@ -70,7 +80,7 @@ A breadboard is like a pin cushion for connecting things, with a grid of holes t
 
 Here we see how a breadboard is connected internally.
 
-![img](./section_1_images/breadboard_internal.png)
+![Breadboard Internals](./section_1_images/breadboard_internal.png)
 
 The main area consists of a two separate grids of holes arranged in usually 30 or more columns (labeled 1 through 30) of 5 holes (labeled a through e, and f through j), separated by a groove. Each column of 5 holes is called a terminal strip. All of the 5 holes (or **tie points**) in a column are connected together internally.
 
@@ -154,7 +164,7 @@ Lots of Python developers use PyCharm.  And it has a MicroPython plugin that sup
 
 ### vi, etc.
 
-I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython.
+I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards. 
 
 ### Your Editor of Choice + Command Line Tools
 
@@ -236,13 +246,15 @@ esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --chip esp32 -z 0x1000 
 
 Assuming the command completed successfully, your board is now rocking Python!  Let's check it out using the REPL. Let's use rshell for this.  Back in your terminal with our IoT Python virtual environment activated, type `rshell`. You should see something like the following:
 
-```shell
+```
 Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 
 No MicroPython boards connected - use the connect command to add one
 
 /home/dalexis/code/iot>
 ```
+
+
 
 Now we're going to use the port that our board is connected to in the next command.  On Windows this might be something like `COM9`, on Mac `/dev/cu.SLAB_USBtoUART`, and on Linux maybe `/dev/ttyUSB0`.  I'm using a Windows machine with Ubuntu 20.04 bash as my default terminal environment, and my board is connected on COM9.  So I can use either COM9 (from Powershell), or /dev/ttyS9 under WSL/Ubuntu.  At the rshell prompt, let's use the `connect serial <port>` command. In my case, under WSL it would be:
 
@@ -252,8 +264,8 @@ Now we're going to use the port that our board is connected to in the next comma
 
 And I see the following output:
 
-```shell
-Connecting to /dev/ttyS16 (buffer-size 512)...
+```
+Connecting to /dev/ttyS9 (buffer-size 512)...
 Trying to connect to REPL  connected
 Testing if sys.stdin.buffer exists ... Y
 Retrieving root directories ... /boot.py/
@@ -263,11 +275,15 @@ Retrieving time epoch ... Jan 01, 2000
 /home/dalexis/code/iot>
 ```
 
+
+
 As you can see, it's letting me know that it was able to connect to the board and set it's time to my current machine time.  Note that rshell can trip you up a bit, since the prompt looks like your OS prompt.  But it's not.  It's within rshell, and displaying your current folder in the prompt.  It even let's you do Linux-type commands like ls, cp, rm, mkdir, and cd. It exposes the filesystem on your board (yes, there is a filesystem on that tiny thing!) under the path `/pyboard`.  Let's try the following:
 
-```shell
+```
 /home/dalexis/code/iot> ls /pyboard
 ```
+
+
 
 You should see a listing for boot.py, which comes by default with a MicroPython installation.  Check out the various available rshell commands by typing `help`.
 
@@ -290,13 +306,13 @@ Hello micro World!!
 >>>
 ```
 
-But to be truly idiomatic, the real microcontroller Hello World program is called Blinkenlights.  Luckily, these boards have a couple built-in LEDs, so they are ready for das blinkenlights! Try the following:
+But to be truly idiomatic, the real microcontroller Hello World program is referred to by some as Blinkenlights, a term ripe with [tech shenanigan history](https://en.wikipedia.org/wiki/Blinkenlights).  Luckily, these boards have a couple built-in LEDs, so they are ready for das blinkenlights! Try the following:
 
 ```python
 >>> from machine import Pin
 >>> from time import sleep
 >>> led = Pin(2, Pin.OUT)
->>> for i in range(10):
+>>> while True:
 ...     led.value(not led.value())
 ...     sleep(.5)
 ...
@@ -319,5 +335,8 @@ while True:
 
 This will just go on forever until you reset the board or hit Ctrl-C.
 
-You'll notice that as soon as you run the `led = Pin(2, Pin.OUT)` line, the LED comes on.  And if you do `led.on()` it goes off.  Weird.  This is a fun little quirk with the built-in LEDs on these boards, and due to them being internally connected to what's called a pull-up resistor.  We'll get into that in a later section.
+You'll notice that as soon as you run the `led = Pin(2, Pin.OUT)` line, the LED comes on.  And if you do `led.on()` it goes off.  Weird.  This is a fun little quirk with the built-in LEDs on ESP8266 boards, and due to them being internally connected to what's called a pull-up resistor.  The TL;DR about a pullup resistor is that it makes it so that off is on and on is off. Weird. But it has its uses.  The good thing is that the LED on my ESP32 boards behave normally.  I'm assuming that they got enough complaints from confused ESP8266 users that they "fixed" it with the ESP32. 
 
+
+
+In the [next section](Section_2.md), we'll get to know the "Thing" part of IoT with MicroPython.
