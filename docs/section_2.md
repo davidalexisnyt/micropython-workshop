@@ -216,7 +216,7 @@ def main():
 
         print(reading)
 
-        # Wait at least 2 seconds before next reading, since the DHT sensor's measure() methos
+        # Wait at least 2 seconds before next reading, since the DHT sensor's measure() method
         # can only be called once every 2 seconds.
         sleep(5)
 
@@ -255,13 +255,13 @@ Remember that rshell makes the board's file system available under the virtual /
 We should see output like this, showing that the file is indeed on the board:
 
 ```shell
-boot.py      dhtSensor.py
+boot.py      dht_sensor.py
 ```
 
 Now, let's run it.  Still in rshell, type `repl`, which will launch the Python REPL on the board.  Once the REPL is up, we can run our code by importing the file:
 
 ```python
->>> import dhtSensor
+>>> import dht_sensor
 {'temperature_F': 83, 'humidity': 44.60001}
 {'temperature_F': 83, 'humidity': 44.7}
 {'temperature_F': 83, 'humidity': 44.7}
@@ -294,7 +294,7 @@ mpfs [/]> repl
 
 MicroPython v1.12 on 2019-12-20; ESP32 module with ESP32
 Type "help()" for more information.
->>> import dhtSensor
+>>> import dht_sensor
 {'temperature_F': 83, 'humidity': 44.7}
 {'temperature_F': 83, 'humidity': 45.2}
 {'temperature_F': 83, 'humidity': 45.2}
@@ -311,10 +311,7 @@ After that, the `repl` command and executing our code is the same as with rshell
 
 Great!  So we now know how to get MicroPython onto our board, how to use a pinout diagram as the map to boards and components, how to hook things up on a breadboard, and get temperature and humidity readings in MicroPython.  The DHT sensors are simple to work with, since they require only a single pin (other than the requisite power and ground).  Other sensors and devices, like the BME280 temperature/humidity/barometric pressure sensor and very cute SSD1306 OLED screens, interface with our board through communication busses or protocols like I2C or SPI.
 
-![ssd1306_oled](section_2.assets/ssd1306_oled.jpg)
 
-Adding an SSD1306 display is relatively easy, and a great addition to our build. You can find sample code for this in `07-weathernode/weathernode_with_display.py` in the accompanying code.
-
-
+---
 
 Next, we'll figure out the ["Internet" part](section_3.md) of IoT with MicroPython.

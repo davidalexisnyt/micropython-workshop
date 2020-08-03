@@ -22,7 +22,7 @@ There are two types of microcontroller boards that we'll talk about.
 
 ## ESP8266-based boards
 
-The ESP8266 is the chip that arguably started the do-it-yourself (DIY) IoT revolution, and was created by Espressif, a company based in Shanghai, China.  It contains a 32-bit processor running at 80MHz, with 64K of RAM and 4MB flash storage.  That's 5 times the processing power, 16 times the RAM, and 128 times the storage of a typical Arduino board.  But the killer feature is a built-in WiFi stack that can act as a WiFi client, access point, or both at the same time!  These boards can be obtained for as little as $4 in the US and under $1 from China. The ESP8266 was initially marketed as an add-on WiFi component for other microcontrollers, like Arduino.  Then someone realized that it contained its own
+The ESP8266 is the chip that arguably started the do-it-yourself (DIY) IoT revolution, and was created by Espressif, a company based in Shanghai, China.  It contains a 32-bit processor running at 80MHz, with 64K of RAM and 4MB flash storage.  That's 5 times the processing power, 16 times the RAM, and 128 times the storage of a typical Arduino board.  But the killer feature is a built-in WiFi stack that can act as a WiFi client, access point, or both at the same time!  These boards can be obtained for as little as $4 in the US and under $1 from China. The ESP8266 was initially marketed as an add-on WiFi component for other microcontrollers, like Arduino.  Then someone realized that it contained its own microcontroller CPU that was much more powerful than the Arduinos it was augmenting.  The open source community built the necessary libraries to make it Arduino-compatible, and its popularity exploded almost overnight.
 
 <img src="./section_1_images/image-20200727195603905.png" alt="image-20200727195603905" style="zoom:50%;" />
 
@@ -32,7 +32,7 @@ The ESP8266 is the chip that arguably started the do-it-yourself (DIY) IoT revol
 
 ## ESP32-based boards
 
-Following on the success of the ESP8266, Espressif came up with the ESP32.  This has a dual-core 32-bit processor running at between 160MHz and 240MHz, faster WiFi, Bluetooth, and lots more I/O ports.  In addition to the standard "developer board" form factors, this chip comes in interesting packages like the ESP Cam (a 2MP camera for video streaming and still imaging for about $8) and the ESP-AI (camera plus built-in face-detecting AI in hardware).
+Following on the success of the ESP8266, Espressif came up with the ESP32.  This has a dual-core 32-bit processor running at between 160MHz and 240MHz, a 3rd ultra-low-power co-processor, faster WiFi, Bluetooth, and lots more I/O ports.  In addition to the standard "developer board" form factors, this chip comes in interesting packages like the ESP Cam (a 2MP camera for video streaming and still imaging for about $8) and the ESP-AI (camera plus built-in face-detecting AI in hardware).
 
 <img src="./section_1_images/developing-for-espressif-esp32-and-esp8266.png" alt="Develop for espressif esp32 and esp8266 by Carstent" style="zoom: 50%;" />
 
@@ -58,11 +58,11 @@ These diagrams are readily available on the Internet, and can be obtained by sea
 
 There are a few things to take note of on this diagram:
 
-- The pin labels printed on the board itself are different from the callout labels that say, "GPIO<number>".  If you're working with the Arduino development environment, there are sometimes constants defined for given boards, where you can reference pins in your code as `D5` or `A1`.  The "GPIO" (General Purpose Input/Output) pin numbers are the actual pin numbers of the underlying microcontroller chip, and in the case of ESP8266 and ESP32 boards, the pins are not labeled to match the GPIO pin numbers.  `¯\_(ツ)_/¯`.
+- The pin labels printed on the board itself are different from the callout labels that say, "GPIO<number>".  If you're working with the Arduino development environment, there are sometimes constants defined for given boards, where you can reference pins in your code as `D5` or `A1`.  The "GPIO" (General Purpose Input/Output) pin numbers are the actual pin numbers of the underlying microcontroller chip, and in the case of ESP8266 and ESP32 boards, the pin labels on the board do not match the GPIO pin numbers.  `¯\_(ツ)_/¯`.
 - In MicroPython, the GPIO labels are the ones you need to take note of and reference in your code.
 - There are a number of different color coded labels for some pins.  Those pins serve special purposes, sometimes multiple purposes.  For example, the green labels represent the connections to use for SPI (serial peripheral interface) components.  The orange labels are for I2C (inter-integrated circuit) connections.  The blue labels are for basic transmit/receive connections.  The purple label shows the single analog/digital I/O pin on the ESP8266.  The ESP32 has 18 such pins for analog I/O, as well as a few pins for digital to analog conversions.
 
-Find the pinout diagram for your particular board, and keep it handy.  Note:  AdaFruit's boards have a very different layout, but it seems that many board makers are catching on to their layout design.
+Find the pinout diagram for your particular board, and keep it handy.  Note:  AdaFruit's boards have a very different layout, but it seems that many board makers are catching on to their "feather" board design.
 
 The ESP boards work on 3.3 volts. This is important for two main reasons.  The board will get damaged if you feed it any more than 3.3V on any of the pins labeled `3.3V`.  Batteries or other power supplies ranging from 5V to 12V can be supplied to the `Vin` (voltage in) pin, although it is not advised to go over 9 volts. (I once connected a 9 volt supply to Vin on a cheap ESP8266, and it exploded.) The other importance of the 3.3 volts is that these boards will only work with components designed for up to3.3V.  Make sure that any components you try to use are not 5V-rated.  Some components, like the DHT sensor we will use, work with anything from 2 to 5 volts, so they work perfectly with ESP boards.
 
@@ -86,13 +86,13 @@ The main area consists of a two separate grids of holes arranged in usually 30 o
 
 The power rails are along the top and bottom of the breadboard, and each consists of two strips of tie points. The power strip (+ve voltage) is marked with a **+** and a red line. The ground rail is marked with a **-** and a line that is either black or blue.
 
-Power and ground are typically fed to the breadboard from the 5V (or 3.3V) and GND pins on the Arduino, and the strips are then used to feed power and ground to components of your circuit. We’ll see this in action later.
+Power and ground are typically fed to the breadboard from the 5V (or 3.3V) and GND pins on a microcontroller board (like an Arduino or ESP8266), and the strips are then used to feed power and ground to components of your circuit. We’ll see this in action later.
 
 
 
 # Tool and Development Environment Setup
 
-Set up Python virtual environment to host the basic tools.
+The tools that we are going to use are Python-based, so we're going to set up a Python virtual environment to hold them.
 
 Create a folder somewhere to hold our virtual environment and MicroPython projects.  For example, I have my code set up under C:\code\iot on my Windows machine and ~/code/iot on my Linux environment.  Create your own based on your preference, but for this document, let's assume ~/code/iot.
 
@@ -135,7 +135,7 @@ pip install mpfshell
 ```
 
 - **rshell:**  Remote Shell for Micropython.  This lets you connect to your board, then presents what looks like a basic Linux-type shell that lets you copy files to and from the board, and the ability to launch a Python REPL on the board.
-- **AdaFruit ampy:**  AdaFruit's MicroPython Tool.  This is a CLI tool - ampy - for copying files to and from your board, and to have very basic control over the board.  Ampy has fallen behind somewhat, and was even going to be discontinued by AdaFruit, but it lives on.
+- **Adafruit ampy:**  AdaFruit's MicroPython Tool.  This is a CLI tool - ampy - for copying files to and from your board, and to have very basic control over the board.  Ampy has fallen behind somewhat, and was even going to be discontinued by Adafruit, but it lives on. Adafruit tends to concentrate more on CircuitPython, their MicroPython fork.
 - **mpfshell:** MicroPython File Shell.  This is very similar to rshell, but does not use the somewhat confusing fake Linux user interface paradigm.  One cool advantage it has is the ability to pre-compile your code to byte code, which will save time and memory when the code executes on the device.
 
 You don't need all three of these tools, but it's good to explore them all so you can see which one fits your preferences.
@@ -164,7 +164,7 @@ Lots of Python developers use PyCharm.  And it has a MicroPython plugin that sup
 
 ### vi, etc.
 
-I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards.
+I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. :) Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards.
 
 ### Your Editor of Choice + Command Line Tools
 
