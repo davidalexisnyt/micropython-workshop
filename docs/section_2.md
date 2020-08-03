@@ -140,7 +140,7 @@ import dht
 SENSOR_PIN = 5
 ```
 
-You already know the `machine` and `time` pins.  The last one - `dht` - is the star of this show.  It is a built-in module in MicroPython that encapsulates the code necessary to interact with DHT11 and DHT22 sensors.  Now we need to get an instance of either the DHT11 class or the DHT22 class, depending on which sensor you have.  The DHT11 is typically blue, while the DHT22 is white and usually a bit larger.  The pinouts for both sensors are the same - 4 pins (power, data, an unused pin, and ground).  In the code above, we also set up a constant representing the pin we're going to use to read sensor data.
+You already know the `machine` and `time` modules.  The last one - `dht` - is the star of this show.  It is a built-in module in MicroPython that encapsulates the code necessary to interact with DHT11 and DHT22 sensors.  Now we need to get an instance of either the DHT11 class or the DHT22 class, depending on which sensor you have.  The DHT11 is typically blue, while the DHT22 is white and usually a bit larger.  The pinouts for both sensors are the same - 4 pins (power, data, an unused pin, and ground).  In the code above, we also set up a constant representing the pin we're going to use to read sensor data.
 
 ```python
 sensor_pin = Pin(SENSOR_PIN, Pin.IN, Pin.PULL_UP)
@@ -170,7 +170,7 @@ You should see output like this:
 27.7 44.1
 ```
 
-So, what's going on here?  DHT sensors can only measure temperature and humidity once every 2 seconds.  But you may end up getting the temperature and/or humidity reading multiple times in a second (e.g. if your code keeps calling `sensor.temperature()` on different lines). To accommodate this, the sensor breaks up the functionality. The `measure()` method actually does the internal work of reading the internal sensors, and keeps that state internally.  Then the `temperature()` and `humidity()` methods (which are actually more like properties) can be called as many times are you need to get the readings.
+So, what's going on here?  DHT sensors can only measure temperature and humidity once every 2 seconds.  But you may end up getting the temperature and/or humidity reading multiple times in a second (e.g. if your code keeps calling `sensor.temperature()` on different lines). To accommodate this, the sensor breaks up the functionality. The `measure()` method does the actual work of reading the sensors, and sets that state internally.  Then the `temperature()` and `humidity()` methods (which are actually more like properties) can be called as many times are you need to get the readings.
 
 The 27.7 in the output is the temperature in Celsius (because only barbarians still use Fahrenheit), and the 44.1 is the humidity percentage. It's a bit toasty in here, I guess.  Since I'm a barbarian, let's see how much that is in barbarian units:
 
@@ -232,7 +232,7 @@ main()
 
 ### rshell
 
-This is getting a little too long to type in the REPL.  You can use whichever editor you like, and save the file in the IoT code folder we created before.  In the companion code repo, the code for this program is under code/02-sensors/dht_sensor.py.  That's the location I'll assume in the next bit.
+This is getting a little too long to type in the REPL.  You can use whichever editor you like, and save the file in the IoT code folder we created before.  In the companion code repo, the code for this program is under src/02-sensors/dht_sensor.py.  That's the location I'll assume in the next bit.
 
 So we have the code in a file.  We can use rshell to copy it to our board.  In a terminal, make sure that your IoT Python virtual environment is activated and that you're.  Then run rshell.  Once you're at the rshell prompt, connect to the board using the `connect serial <port>` command:
 
