@@ -627,6 +627,6 @@ You should be ready now to dig deeper into the world of MicroPython and IoT!  Ha
 
 ----
 
-> **Interesting:** We always see pictures of pythons in anything related to Python. But Python was named, not after a snake, but after Monty Python! Hence I end this document with what I think should be the real Python logo - the iconic image of John Cleese from the Ministry of Silly Walks skit.
+> **Interesting:** We always see pictures of pythons in anything related to Python. But Python was named, not after a snake, but after Monty Python! Hence I end this document with what I think should be the real Python logo - the iconic image of John Cleese from the Ministry of Silly Walks skit. :)
 
 ![ministry_of_silly_walks](Section_3.assets/ministry_of_silly_walks.png)

@@ -14,7 +14,7 @@ Let's get started!
 
 - [Section 1 - Intro and Setup](./section_1.md) 
 - [Section 2 - MicroPython and The "T" in IoT](section_2.md) 
-- [Section 3 - MicroPython and the "I" in IoT](Section_3.md)
+- [Section 3 - MicroPython and the "I" in IoT](section_3.md)
 
 
 
