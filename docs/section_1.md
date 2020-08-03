@@ -121,7 +121,7 @@ Now we will install a few tools that we'll use.  Esptool is used to flash MicroP
 
 ```shell
 pip install esptool
-esptool.py --version
+esptool.py version
 ```
 
 Note that once installed, esptool must be called with the .py extension:  `esptool.py`.  Run it with no arguments to get help on its various commands.
