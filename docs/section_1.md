@@ -162,9 +162,9 @@ There is a plugin called Pymakr for both VS Code and Atom.  But while the VS Cod
 
 Lots of Python developers use PyCharm.  And it has a MicroPython plugin that supposedly works really well.  I couldn't get it to work.  This is not necessarily anything to do with PyCharm or the plugin, but more to do with my brain just not being in sync with most things from Jetbrains.
 
-### vi, etc.
+### vim, etc.
 
-I'm not a vi person, but I would wager that someone out there, from deep within their mother's basement, has created the perfect vi plugin for MicroPython. :) Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards.
+I'm not a vi person, but I would wager that someone out there has created the perfect vi plugin for MicroPython. Even without that, though, there are some wonderful command line tools - like rshell - for working with MicroPython boards.
 
 ### Your Editor of Choice + Command Line Tools
 
