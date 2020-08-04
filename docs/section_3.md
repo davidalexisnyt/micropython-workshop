@@ -30,7 +30,7 @@ I'll briefly show the access point configuration, but we'll be mostly concerned 
 
 ```python
 ap = network.WLAN(network.AP_IF)
-print(ap.isactive())
+print(ap.active())
 ap.active(True)
 ap.config(essid='fireant', password='meatmeat')
 
@@ -76,7 +76,7 @@ WIFI_PASSWORD = '<replace with your network password'
 
 wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
-wifi.connect(WIFI_SSID, WIFI_PASSSWORD)
+wifi.connect(WIFI_SSID, WIFI_PASSWORD)
 
 while not wifi.isconnected():
     pass
