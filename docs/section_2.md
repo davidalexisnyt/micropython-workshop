@@ -104,7 +104,7 @@ So now that we know about GPIO pins and how to get around the REPL, let's move o
 
 <img src="section_2.assets/DHT11-DHT22-AM2302-Temperature-Humidity-Sensor-Pinout.png" alt="DHT11-DHT22-AM2302-Temperature-Humidity-Sensor-Pinout" style="zoom: 80%;" />
 
-
+If your sensor has only three pins, the pin labeled `+` is VCC, `-` is GND, and `out` is Data.
 
 
 
